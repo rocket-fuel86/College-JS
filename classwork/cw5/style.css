@@ -1,0 +1,12 @@
+.test {
+    color: lightcoral;
+}
+
+.test2 {
+    background-color: lightgreen;
+}
+
+.active {
+    background-color: crimson;
+    color: white;
+}
