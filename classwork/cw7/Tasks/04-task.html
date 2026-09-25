@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 04</title>
+</head>
+
+<body>
+    <script>
+        /*
+        Задание:
+        Перепишите функцию конструктор Rect. Вынесите методы из экземпляра в прототип.
+        */
+
+        function Rect(width, height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        Rect.prototype.getArea = function () {
+            return this.height * this.width;
+        }
+
+        Rect.prototype.getPerimeter = function () {
+            return this.height * 2 + this.width * 2;
+        }
+
+        let rect1 = new Rect(100, 50);
+        let rect2 = new Rect(25, 33);
+
+        console.log("rect1 area " + rect1.getArea());
+        console.log("rect1 perimeter " + rect1.getPerimeter());
+
+        console.log("rect2 area " + rect2.getArea());
+        console.log("rect2 perimeter " + rect2.getPerimeter());
+
+
+        // Task 1
+
+        function Circle(radius) {
+            this.radius = radius;
+        }
+
+        Circle.prototype.getArea = function () {
+            return Math.PI * this.radius * this.radius;
+        }
+
+        Circle.prototype.getCircumference = function () {
+            return 2 * Math.PI * this.radius;
+        }
+
+        let circle = new Circle(10);
+
+        console.log("Circle area:", circle.getArea());
+        console.log("Circle circumference:", circle.getCircumference());
+
+
+        // Task 2
+
+        function User(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        User.prototype.sayHello = function () {
+            console.log("Hello, my name is " + this.name);
+        }
+
+        User.prototype.isAdult = function () {
+            return this.age >= 18;
+        }
+
+        let user1 = new User("Иван", 20);
+        let user2 = new User("Анна", 16);
+
+        user1.sayHello();
+        console.log("Иван совершеннолетний:", user1.isAdult());
+
+        user2.sayHello();
+        console.log("Анна совершеннолетняя:", user2.isAdult());
+
+
+        
+        // Task 3
+
+        function Triangle(a, b, c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+
+        Triangle.prototype.getPerimeter = function () {
+            return this.a + this.b + this.c;
+        }
+
+        Triangle.prototype.getArea = function () {
+            let p = (this.a + this.b + this.c) / 2;
+
+            return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
+        }
+
+        let triangle = new Triangle(3, 4, 5);
+
+        console.log("Triangle perimeter:", triangle.getPerimeter());
+        console.log("Triangle area:", triangle.getArea());
+    </script>
+</body>
+
+</html>
+
+<!--  Задание 1: Круг
+Задание:  
+Создайте конструктор Circle(radius).
+Вынесите методы getArea() и getCircumference() в прототип.
+
+ Задание 2: Пользователь
+Задание:  
+Создайте конструктор User(name, age).
+Вынесите методы sayHello() и isAdult() в прототип.
+
+sayHello() выводит строку "Привет, меня зовут <name>".
+
+isAdult() возвращает true, если возраст ≥ 18.
+
+Задание 3: Треугольник
+Задание:  
+Создайте конструктор Triangle(a, b, c).
+Вынесите методы getPerimeter() и getArea() в прототип.
+
+getPerimeter() возвращает сумму сторон.
+
+getArea() вычисляет площадь по формуле Герона. -->
