@@ -27,11 +27,13 @@ class Hero {
     #name;
     #health;
     #damage;
+    #maxHealth;
 
-    constructor(name, health, damage) {
+    constructor(name, health = 100, damage) {
         this.#name = name;
         this.#health = health;
         this.#damage = damage;
+        this.#maxHealth = this.#health;
     }
 
     attack(target) {
@@ -39,6 +41,18 @@ class Hero {
             target.health -= this.damage;
             console.log(`${this.name} attacked ${target.name} with ${this.damage} DMG`);
             console.log(`${target.name} now has ${target.health} HP`);
+        }
+    }
+
+    heal() {
+        if (this.isAlive && this.#health + 10 <= this.#maxHealth) { 
+            this.#health += 10;
+            console.log(`${this.#name} healed 10 HP`);
+            console.log(`${this.#name} now has ${this.#health} HP`);
+        } else if (!this.isAlive) {
+            console.log("Hero isn`t alive");
+        } else {
+            console.log("Max health reached");
         }
     }
 
@@ -80,6 +94,7 @@ const test2 = new Hero("Test 2", 100, 15);
 test1.attack(test2);
 test1.attack(test1); // Can`t attack themself
 test2.attack(test1);
+test1.heal();
 
 // const acc = new BankAccount("Test", 1337);
 
