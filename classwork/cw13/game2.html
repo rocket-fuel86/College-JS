@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ловушка</title>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #player {
+            width: 50px;
+            height: 50px;
+            background-color: blue;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+
+        #coin {
+            width: 30px;
+            height: 30px;
+            background-color: yellow;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        #trap {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+        }
+
+        #message {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="player"></div>
+    <div id="coin"></div>
+    <div id="trap"></div>
+    <div id="message">Счёт: 0</div>
+
+    <script>
+        const player = document.getElementById("player");
+        const coin = document.getElementById("coin");
+        const trap = document.getElementById("trap");
+        const message = document.getElementById("message");
+
+        let x = 100;
+        let y = 100;
+        const step = 20;
+        let score = 0;
+        let gameOver = false;
+
+        function moveObject(object, size) {
+            const maxX = window.innerWidth - size;
+            const maxY = window.innerHeight - size;
+
+            object.style.left = Math.random() * maxX + "px";
+            object.style.top = Math.random() * maxY + "px";
+        }
+
+        function checkCollision(a, b) {
+            const p = a.getBoundingClientRect();
+            const t = b.getBoundingClientRect();
+
+            return (
+                p.left < t.right &&
+                p.right > t.left &&
+                p.top < t.bottom &&
+                p.bottom > t.top
+            );
+        }
+
+        moveObject(coin, 30);
+        moveObject(trap, 50);
+
+        document.addEventListener("keydown", function(event) {
+            if (gameOver) return;
+
+            if (event.key === "ArrowUp") y -= step;
+            if (event.key === "ArrowDown") y += step;
+            if (event.key === "ArrowLeft") x -= step;
+            if (event.key === "ArrowRight") x += step;
+
+            x = Math.max(0, Math.min(x, window.innerWidth - 50));
+            y = Math.max(0, Math.min(y, window.innerHeight - 50));
+
+            player.style.left = x + "px";
+            player.style.top = y + "px";
+
+            if (checkCollision(player, coin)) {
+                score++;
+                message.textContent = "Счёт: " + score;
+                moveObject(coin, 30);
+            }
+
+            if (checkCollision(player, trap)) {
+                gameOver = true;
+                message.textContent = "Игра окончена! Счёт: " + score;
+                message.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>
