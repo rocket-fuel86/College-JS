@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
         .task-list {
@@ -27,6 +27,7 @@
         .task {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             border: 1px solid gray;
             padding: 3px 8px;
             margin: 2px 10px;
@@ -34,6 +35,11 @@
 
         .task p {
             margin-left: 4px;
+        }
+
+        .task button {
+            padding: 4px;
+            width: 25%;
         }
 
         .completed {
@@ -61,6 +67,16 @@
             padding-left: 4px;
             width: 68%;
         }
+
+        .deleteButton-completed {
+            color: white;
+            background-color: rgb(0, 195, 0);
+            border: 1px solid darkgreen;
+        }
+
+        .deleteButton-completed:hover {
+            background-color: rgb(1, 156, 1);
+        }
     </style>
 </head>
 
@@ -74,15 +90,15 @@
     </div>
 
     <script>
-        let taskNameInput = document.querySelector("#task-name-input");
-        let addTaskButton = document.querySelector("#add-task-btn");
-        let startMessage = document.querySelector("#start-message");
+        let taskNameInput = document.getElementById("task-name-input");
+        let addTaskButton = document.getElementById("add-task-btn");
+        let startMessage = document.getElementById("start-message");
         let taskList = document.querySelector(".task-list");
 
         addTaskButton.addEventListener("click", addTaskHandler);
         
         // Если фокус находится в поле ввода и нажимается клавиша Enter, запускается функция addTaskHandler (происходит, тоже самое, что и при нажатии на кнопку "Добавить задачу")
-        taskNameInput.addEventListener("keydown", function (e) {
+        taskNameInput.addEventListener("keydown", (e) => {
             if (e.code == "Enter") addTaskHandler();
         })
 
@@ -98,18 +114,35 @@
             let p = document.createElement("p");
             p.innerText = text;
 
+            let deleteButton = document.createElement("button");
+            deleteButton.innerText = "Delete";
+            deleteButton.disabled = true;
+            deleteButton.style.cursor = "not-allowed";
+            deleteButton.addEventListener("click", () => {
+                taskList.removeChild(div);
+            });
+
             div.append(input);
             div.append(p);
+            div.append(deleteButton);
 
             return div;
         }
 
         // функция обработчик, которая меняет статус выбранной задачи, используется как обработчик на событие click для checkbox
         function changeTaskState() {
+            let deleteButton = this.parentElement.querySelector("button");
+
             if (this.checked) { // если нажатый chekbox с галочкой, то добавляем для родительского элемента класс completed
                 this.parentElement.classList.add("completed");
+                deleteButton.disabled = false;
+                deleteButton.classList.add("deleteButton-completed");
+                deleteButton.style.cursor = "pointer";
             } else { // иначе убираем класс completed
                 this.parentElement.classList.remove("completed");
+                deleteButton.disabled = true;
+                deleteButton.classList.remove("deleteButton-completed");
+                deleteButton.style.cursor = "not-allowed";
             }
         }
 
